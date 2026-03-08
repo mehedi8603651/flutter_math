@@ -15,14 +15,11 @@ void testTexToMatchGoldenFile(
   String expression, {
   String? location,
   double scale = 1,
-  MathStyle style = MathStyle.display,
-  Size logicalSize = const Size(500, 300),
 }) {
   testWidgets(description, (WidgetTester tester) async {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
-    tester.view.physicalSize =
-        Size(logicalSize.width * scale, logicalSize.height * scale);
+    tester.view.physicalSize = Size(500 * scale, 300 * scale);
     tester.view.devicePixelRatio = 1.0;
     final key = GlobalKey();
     await tester.pumpWidget(
@@ -36,7 +33,7 @@ void testTexToMatchGoldenFile(
                 child: Math.tex(
                   expression,
                   options: MathOptions(
-                    style: style,
+                    style: MathStyle.display,
                     fontSize: scale * MathOptions.defaultFontSize,
                   ),
                   onErrorFallback: (_) => throw _,
