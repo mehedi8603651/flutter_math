@@ -24,8 +24,10 @@ import 'selection/web_selection_manager.dart';
 
 const defaultSelection = TextSelection.collapsed(offset: -1);
 
+/// Configures which context-menu actions are enabled for [SelectableMath].
 @immutable
 class SelectableMathToolbarOptions {
+  /// Creates toolbar options for [SelectableMath].
   const SelectableMathToolbarOptions({
     this.copy = true,
     this.cut = false,
@@ -33,11 +35,23 @@ class SelectableMathToolbarOptions {
     this.selectAll = true,
   });
 
+  /// Whether the copy action should be available.
   final bool copy;
+
+  /// Whether the cut action should be available.
+  ///
+  /// This is currently ignored because [SelectableMath] is read-only.
   final bool cut;
+
+  /// Whether the paste action should be available.
+  ///
+  /// This is currently ignored because [SelectableMath] is read-only.
   final bool paste;
+
+  /// Whether the select-all action should be available.
   final bool selectAll;
 
+  /// Returns a copy of this configuration with the provided fields replaced.
   SelectableMathToolbarOptions copyWith({
     bool? copy,
     bool? cut,
@@ -73,13 +87,17 @@ class SelectableMathToolbarOptions {
 /// pointer selection. The selected region can be encoded into TeX and copied
 /// to clipboard.
 ///
-/// See [SelectableText] as this widget aims to fully imitate its behavior.
+/// Use [SelectableMath] when users need to copy or inspect the TeX selection.
+/// If you only need display, prefer [Math] for lower overhead.
+///
+/// See [SelectableText] as this widget aims to imitate its selection behavior.
 class SelectableMath extends StatelessWidget {
-  /// SelectableMath default constructor.
+  /// Creates selectable math from an already parsed [SyntaxTree].
   ///
-  /// Requires either a parsed [ast] or a [parseException].
+  /// Provide either a built [ast] or a [parseException].
   ///
-  /// See [SelectableMath] for its member documentation.
+  /// Most applications should prefer [SelectableMath.tex], which parses a TeX
+  /// string and returns a ready-to-use widget.
   const SelectableMath({
     Key? key,
     this.ast,
@@ -177,29 +195,31 @@ class SelectableMath extends StatelessWidget {
   /// {@macro flutter.widgets.editableText.showCursor}
   final bool showCursor;
 
-  /// {@macro flutter.widgets.editableText.textScaleFactor}
+  /// Multiplier applied to the effective text size before rendering.
+  ///
+  /// When null, the equation follows the ambient [MediaQuery] text scaling.
   final double? textScaleFactor;
 
   /// Optional delegate for building the text selection handles and toolbar.
   ///
-  /// Just works like [EditableText.selectionControls]
+  /// Works like [EditableText.selectionControls].
   final TextSelectionControls? textSelectionControls;
 
-  /// {@macro fluttermath.widgets.math.textStyle}
+  /// {@macro flutter_math_fork.widgets.math.textStyle}
   final TextStyle? textStyle;
 
   /// Configuration of context menu options.
   ///
-  /// Paste and cut will be disabled regardless.
+  /// Paste and cut are disabled regardless because this widget is read-only.
   ///
-  /// If not set, select all and copy will be enabled by default.
+  /// If not set, copy and select-all are enabled by default.
   final SelectableMathToolbarOptions toolbarOptions;
 
-  /// SelectableMath builder using a TeX string
+  /// Creates selectable math from a TeX [expression].
   ///
   /// {@macro flutter_math_fork.widgets.math.tex_builder}
   ///
-  /// See alse:
+  /// See also:
   ///
   /// * [SelectableMath.mathStyle]
   /// * [SelectableMath.textStyle]
@@ -233,7 +253,7 @@ class SelectableMath extends StatelessWidget {
       parseError = e;
     } on Object catch (e) {
       parseError = ParseException('Unsanitized parse exception detected: $e.'
-          'Please report this error with correponding input.');
+          'Please report this error with corresponding input.');
     }
     return SelectableMath(
       key: key,
@@ -304,7 +324,7 @@ class SelectableMath extends StatelessWidget {
     } on Object catch (e) {
       return onErrorFallback(
           BuildException('Unsanitized build exception detected: $e.'
-              'Please report this error with correponding input.'));
+              'Please report this error with corresponding input.'));
     }
 
     final theme = Theme.of(context);

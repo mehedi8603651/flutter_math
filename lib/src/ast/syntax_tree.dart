@@ -220,9 +220,9 @@ abstract class GreenNode {
   /// [children] stores structural information of the Red-Green Tree.
   /// Used for green tree updates. The order of children should strictly
   /// adheres to the cursor-visiting order in editing mode, in order to get a
-  /// correct cursor range in the editing mode. E.g., for [SqrtNode], when
-  /// moving cursor from left to right, the cursor first enters index, then
-  /// base, so it should return [index, base].
+  /// correct cursor range in the editing mode. For example, for [SqrtNode],
+  /// when moving cursor from left to right, the cursor first enters the index,
+  /// then the base, so it should return `index` before `base`.
   ///
   /// Please ensure [children] works in the same order as [updateChildren],
   /// [computeChildOptions], and [buildWidget].
