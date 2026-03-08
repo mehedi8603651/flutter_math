@@ -181,17 +181,24 @@ class Math extends StatelessWidget {
             .merge(const TextStyle(fontWeight: FontWeight.bold));
       }
 
-      final textScaleFactor =
-          this.textScaleFactor ?? MediaQuery.textScaleFactorOf(context);
+      final baseFontSize =
+          effectiveTextStyle.fontSize ?? MathOptions.defaultFontSize;
+      final scaledFontSize = this.textScaleFactor != null
+          ? baseFontSize * this.textScaleFactor!
+          : MediaQuery.textScalerOf(context).scale(baseFontSize);
+      final effectiveColor = effectiveTextStyle.color ??
+          DefaultTextStyle.of(context).style.color ??
+          Colors.black;
 
       options = MathOptions(
         style: mathStyle,
-        fontSize: effectiveTextStyle.fontSize! * textScaleFactor,
-        mathFontOptions: effectiveTextStyle.fontWeight != FontWeight.normal && effectiveTextStyle.fontWeight != null
+        fontSize: scaledFontSize,
+        mathFontOptions: effectiveTextStyle.fontWeight != FontWeight.normal &&
+                effectiveTextStyle.fontWeight != null
             ? FontOptions(fontWeight: effectiveTextStyle.fontWeight!)
             : null,
         logicalPpi: logicalPpi,
-        color: effectiveTextStyle.color!,
+        color: effectiveColor,
       );
     }
 

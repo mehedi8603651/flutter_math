@@ -1,3 +1,16 @@
+## 0.8.0
+
+* Add compatibility updates for Flutter `3.38.x` and Dart `3.10.x`.
+* Raise the minimum Flutter version to `3.38.0`.
+* Update package constraints for `flutter_svg`, `provider`, `collection`, and `tuple`.
+* Remove the direct `meta` dependency because the current Flutter SDK pins `meta` through `flutter_test`.
+* Clean up deprecated Flutter API usage across rendering, selection, web, and tests.
+* **Breaking:** replace direct `ToolbarOptions` usage with `SelectableMathToolbarOptions` in `SelectableMath`.
+* Fix selection toolbar behavior and focus handling on current Flutter releases.
+* Fix matrix child updates, font metric fallback lookup, and other null-safety/code-structure issues.
+* Update the example app SDK constraints and package resolution for the current Flutter toolchain.
+* Refresh golden files and documentation for the current renderer output.
+
 ## 0.7.4
 
 * Add support for flutter 3.32.0
