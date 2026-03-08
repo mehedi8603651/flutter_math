@@ -197,6 +197,8 @@ class Math extends StatelessWidget {
                 effectiveTextStyle.fontWeight != null
             ? FontOptions(fontWeight: effectiveTextStyle.fontWeight!)
             : null,
+        textModeTextStyle: effectiveTextStyle,
+        textLocale: Localizations.maybeLocaleOf(context),
         logicalPpi: logicalPpi,
         color: effectiveColor,
       );

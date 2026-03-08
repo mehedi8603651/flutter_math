@@ -10,6 +10,9 @@
 * Fix matrix child updates, font metric fallback lookup, and other null-safety/code-structure issues.
 * Update the example app SDK constraints and package resolution for the current Flutter toolchain.
 * Refresh golden files and documentation for the current renderer output.
+* Add shaped `\text{...}` rendering for multilingual inline text, including Bangla, Arabic, Hindi, Japanese and more mixed with math on the same line.
+* Add RTL-aware text-run handling for Arabic inside `\text{...}`.
+* Document current Unicode/UTF-8 support behavior and add widget coverage for multilingual text rendering in both `Math.tex` and `SelectableMath.tex`.
 
 ## 0.7.4
 

@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'helper.dart';
@@ -23,5 +25,13 @@ void main() {
     r'\hat f(\xi) = \int_{-\infty}^{+\infty}{f(x)e^{-2\pi i \xi x}\mathrm{d}x}',
     location: '../doc/img/fourier.png',
     scale: 5,
+  );
+  testTexToMatchGoldenFile(
+    'Multilingual inline text',
+    r'x = \frac{-b+\sqrt{b^2-4ac}}{2a}\quad \text{বাংলা}, \text{العربية}, \text{हिन्दी}, \text{日本語}, \text{中国人} + x^2 = 25',
+    location: '../doc/img/unicode-inline.png',
+    scale: 3,
+    style: MathStyle.text,
+    logicalSize: const Size(1000, 140),
   );
 }

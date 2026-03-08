@@ -18,11 +18,75 @@ This release is tested with Flutter `3.38.9` on the stable channel.
 
 * TeX math parsing and rendering in pure Flutter.
 * Selectable math with copy and select-all support.
+* Shaped multilingual text inside `\text{...}`, including mixed inline math.
 * Manual parser and AST APIs for advanced integrations.
 * TeX-style line breaking support.
 
 Unsupported or partially supported KaTeX features are documented in
 [doc/unsupported.md](doc/unsupported.md).
+
+## Unicode and UTF-8 support
+
+Unicode input is supported, but not as unrestricted plain-text input in every
+parser mode. For multilingual text mixed with math, the recommended path is
+`\text{...}`.
+
+Short version: Unicode/UTF-8 works, but not 100% in every parser mode,
+script, or font setup.
+
+What works:
+
+* Unicode math symbols supported by the parser, such as Greek letters,
+  arrows, operators, and many mathematical Unicode code points.
+* Unicode text inside `\text{...}`.
+* Complex-script shaping inside `\text{...}` for scripts such as Bangla,
+  Arabic, Hindi, Japanese, and more, mixed with math on the same line.
+* The same `\text{...}` shaping path in both `Math.tex` and
+  `SelectableMath.tex`.
+* Top-level Unicode text with the default parser settings or with
+  `TexParserSettings(strict: Strict.ignore)`.
+
+Important limits:
+
+* If you use `TexParserSettings(strict: Strict.error)`, top-level Unicode text
+  in math mode is rejected by design.
+* Raw Unicode typed directly in math mode is still treated as math content,
+  not as normal paragraph text.
+* Correct shaping still depends on the app or device having a font that
+  supports the script. This package can shape the text run, but it does not
+  bundle every script font.
+* Font metrics and spacing are primarily tuned for math. Arbitrary Unicode,
+  especially emoji and unsupported scripts, may render with fallback fonts but
+  should not be considered fully TeX-equivalent.
+
+Examples:
+
+```dart
+Math.tex(r'\text{বাংলা } + x^2 = 25');
+
+Math.tex(
+  r'\text{العربية } + x^2 = 25',
+);
+
+SelectableMath.tex(
+  r'\text{हिन्दी } + \frac{a}{b}',
+);
+
+Math.tex(
+  'বাংলা 試 é',
+  settings: const TexParserSettings(strict: Strict.ignore),
+)
+```
+
+Rendered sample:
+
+`x = \frac{-b+\sqrt{b^2-4ac}}{2a}\quad \text{বাংলা}, \text{العربية}, \text{हिन्दी}, \text{日本語}, \text{中国人} + x^2 = 25`
+
+![Multilingual inline sample](doc/img/unicode-inline.png)
+
+If you need arbitrary multilingual paragraph text, use Flutter's `Text` or
+`RichText` for the prose and use `flutter_math_fork` for the math parts or for
+explicit text runs inside `\text{...}`.
 
 ## Installation
 
